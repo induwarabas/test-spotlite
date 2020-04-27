@@ -2,6 +2,6 @@ title: dfgdfg
 type: object
 properties:
   id:
-    type: string
+    type: number
   sdfadsf:
     type: string
