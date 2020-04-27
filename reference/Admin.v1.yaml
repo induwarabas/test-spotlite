@@ -1,0 +1,179 @@
+openapi: 3.0.0
+info:
+  title: Admin
+  version: '1.0'
+  description: Admin frontend API
+  contact:
+    name: Avonet Technologies
+servers:
+  - url: 'http://localhost:4000/dev/api'
+    description: Development Server
+paths:
+  /admin/user/invite:
+    parameters: []
+    post:
+      summary: ''
+      operationId: invite-admin-user
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+              examples:
+                Email Not Specified:
+                  value:
+                    code: BAD_REQUEST
+                    message: Email not specified
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    default: ALREADY_EXIST
+                  message:
+                    type: string
+              examples:
+                Already Exist:
+                  value:
+                    code: ALREADY_EXIST
+                    message: Email already exist
+      description: Send invitation with a registration link of admin frontend.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 64
+              required:
+                - email
+        description: ''
+      parameters: []
+      tags:
+        - Admin
+  /admin/user/register:
+    put:
+      summary: ''
+      operationId: register-admin-user
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    maxLength: 32
+                  token:
+                    type: string
+                required:
+                  - userId
+                  - token
+              examples:
+                User:
+                  value:
+                    userId: A1754
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    default: ALREADY_EXIST
+                    enum:
+                      - INVALID_TOKEN
+                      - ALREADY_EXIST
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+              examples:
+                Invalid token:
+                  value:
+                    code: INVALID_TOKEN
+                    message: Invalid Token
+                Already Exist:
+                  value:
+                    code: ALREADY_EXIST
+                    message: You are already registered
+      description: Register admin user with emailed link
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 64
+                firstName:
+                  type: string
+                  maxLength: 32
+                lastName:
+                  type: string
+                  maxLength: 32
+                password:
+                  type: string
+                  format: password
+                  maxLength: 64
+                token:
+                  type: string
+                  format: uuid
+              required:
+                - email
+                - firstName
+                - lastName
+                - password
+                - token
+        description: Administartor register message
+      tags:
+        - Admin
+  '/admin/user/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-admin-user-userId
+      responses:
+        '200':
+          description: OK
+      description: Update admin user
+      tags:
+        - Admin
+components:
+  schemas: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer

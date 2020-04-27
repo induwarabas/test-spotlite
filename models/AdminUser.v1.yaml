@@ -1,0 +1,47 @@
+title: AdminUser
+type: object
+x-tags:
+  - Users
+description: Administrator users who are allowed to login admin frontend.
+properties:
+  userId:
+    type: string
+  email:
+    type: string
+    format: email
+    maxLength: 64
+  firstName:
+    type: string
+    maxLength: 64
+  lastName:
+    type: string
+    maxLength: 64
+  status:
+    type: string
+    enum:
+      - Active
+      - Inactive
+  createdUser:
+    type: string
+    maxLength: 16
+  createdTime:
+    type: number
+  modifiedUser:
+    type: string
+    maxLength: 16
+  modifiedTime:
+    type: number
+  version:
+    type: number
+required:
+  - userId
+  - email
+  - firstName
+  - lastName
+  - status
+  - createdUser
+  - createdTime
+  - modifiedUser
+  - modifiedTime
+  - version
+x-examples: {}
