@@ -1,0 +1,7 @@
+title: dfgdfg
+type: object
+properties:
+  id:
+    type: string
+  sdfadsf:
+    type: string
