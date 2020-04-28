@@ -22,15 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                  message:
-                    type: string
-                required:
-                  - code
-                  - message
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 Email Not Specified:
                   value:
@@ -41,13 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    default: ALREADY_EXIST
-                  message:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 Already Exist:
                   value:
@@ -100,19 +86,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    default: ALREADY_EXIST
-                    enum:
-                      - INVALID_TOKEN
-                      - ALREADY_EXIST
-                  message:
-                    type: string
-                required:
-                  - code
-                  - message
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 Invalid token:
                   value:
@@ -155,24 +129,133 @@ paths:
         description: Administartor register message
       tags:
         - Admin
-  '/admin/user/{userId}':
-    parameters:
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
+  /admin/user/update:
+    parameters: []
     patch:
       summary: ''
-      operationId: patch-admin-user-userId
+      operationId: update-admin-user
       responses:
         '200':
           description: OK
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Full Object Required: {}
       description: Update admin user
       tags:
         - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUser'
+        description: Admin user message. Need to send full user details to update.
+  /admin/user/search:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminUser'
+                  total:
+                    type: number
+                    description: Total number of results
+                required:
+                  - data
+                  - total
+      operationId: search-admin-user
+      description: Search admin user by name and email
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: The search text
+        - schema:
+            type: string
+          in: query
+          name: from
+          description: Result page starting index
+        - schema:
+            type: string
+          in: query
+          name: size
+          description: Result page size
+  /admin/user/login:
+    post:
+      summary: ''
+      operationId: post-admin-user-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  value:
+                    code: INVALID
+                    message: Invalid email or password
+      description: Login admin user by email and password
+  /admin/user/validate-token:
+    post:
+      summary: ''
+      operationId: post-admin-user-validate-token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                required:
+                  - email
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid token:
+                  value:
+                    code: INVALID_TOKEN
+                    message: Invalid token. Please contact administrator.
+      description: Check the invitation token is valid.
 components:
-  schemas: {}
+  schemas:
+    AdminUser:
+      $ref: ../models/AdminUser.v1.yaml
+    ErrorResponse:
+      $ref: ../models/ErrorResponse.v1.yaml
   securitySchemes:
     Authorization:
       type: http
