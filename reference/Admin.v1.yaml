@@ -12,7 +12,7 @@ paths:
   /admin/user/invite:
     parameters: []
     post:
-      summary: ''
+      summary: Invite user to register
       operationId: invite-admin-user
       responses:
         '200':
@@ -58,7 +58,7 @@ paths:
         - User Management
   /admin/user/register:
     put:
-      summary: ''
+      summary: Register user with token sent to email
       operationId: register-admin-user
       responses:
         '201':
@@ -138,7 +138,7 @@ paths:
         required: true
         description: The user identifier
     patch:
-      summary: ''
+      summary: Update user information
       operationId: update-admin-user
       responses:
         '200':
@@ -161,7 +161,7 @@ paths:
               $ref: '#/components/schemas/AdminUser'
         description: Admin user message. Need to send full user details to update.
     get:
-      summary: ''
+      summary: Get user information
       operationId: get-admin-user-info-userId
       responses:
         '200':
@@ -186,7 +186,7 @@ paths:
         - User Management
   /admin/user/search:
     get:
-      summary: Your GET endpoint
+      summary: Search admin users
       tags:
         - User Management
       responses:
@@ -228,7 +228,7 @@ paths:
           description: Result page size
   /admin/user/login:
     post:
-      summary: ''
+      summary: Login with email and password
       operationId: post-admin-user-login
       responses:
         '200':
@@ -254,9 +254,9 @@ paths:
       description: Login admin user by email and password
       tags:
         - User Management
-  '/admin/user/token-info/{token}':
+  '/admin/user/token/{token}':
     get:
-      summary: ''
+      summary: Get token information
       operationId: post-admin-user-validate-token
       responses:
         '200':
@@ -301,7 +301,7 @@ paths:
   /admin/user/change-password:
     parameters: []
     post:
-      summary: ''
+      summary: Change self password
       operationId: post-admin-user-change-password-userId
       responses:
         '200':
