@@ -55,7 +55,7 @@ paths:
         description: ''
       parameters: []
       tags:
-        - Admin
+        - User Management
   /admin/user/register:
     put:
       summary: ''
@@ -128,9 +128,15 @@ paths:
                 - token
         description: Administartor register message
       tags:
-        - Admin
-  /admin/user/update:
-    parameters: []
+        - User Management
+  '/admin/user/info/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+        description: The user identifier
     patch:
       summary: ''
       operationId: update-admin-user
@@ -154,10 +160,35 @@ paths:
             schema:
               $ref: '#/components/schemas/AdminUser'
         description: Admin user message. Need to send full user details to update.
+    get:
+      summary: ''
+      operationId: get-admin-user-info-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: User not found
+      description: Get user information by userId
+      tags:
+        - User Management
   /admin/user/search:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - User Management
       responses:
         '200':
           description: OK
@@ -221,8 +252,10 @@ paths:
                     code: INVALID
                     message: Invalid email or password
       description: Login admin user by email and password
-  /admin/user/validate-token:
-    post:
+      tags:
+        - User Management
+  '/admin/user/token-info/{token}':
+    get:
       summary: ''
       operationId: post-admin-user-validate-token
       responses:
@@ -238,6 +271,12 @@ paths:
                     format: email
                 required:
                   - email
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  '':
+                    type: string
         '401':
           description: Unauthorized
           content:
@@ -249,7 +288,56 @@ paths:
                   value:
                     code: INVALID_TOKEN
                     message: Invalid token. Please contact administrator.
-      description: Check the invitation token is valid.
+      description: Get invitation token information
+      tags:
+        - User Management
+    parameters:
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+        description: Invitation token
+  /admin/user/change-password:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-admin-user-change-password-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid old password:
+                  value:
+                    code: INVALID_OLD_PASSWORD
+                    message: Incorrect passowrd
+      description: Change password of admin user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      tags:
+        - User Management
 components:
   schemas:
     AdminUser:
