@@ -19,6 +19,10 @@ properties:
       - Private
     example: Public
     maxLength: 16
+  tags:
+    type: array
+    items:
+      type: string
   gregsMin:
     type: number
     description: Minimum number of participants

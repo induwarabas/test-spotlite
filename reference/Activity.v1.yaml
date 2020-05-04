@@ -8,7 +8,7 @@ paths:
   /activities:
     parameters: []
     post:
-      summary: ''
+      summary: Create new activity
       operationId: post-activities
       responses:
         '201':
@@ -39,7 +39,7 @@ paths:
               $ref: '#/components/schemas/Activity.Create'
         description: The activity to be created
     get:
-      summary: ''
+      summary: Search activities
       operationId: get-activities
       responses:
         '200':
@@ -138,7 +138,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get activity by activity id
       tags: []
       responses:
         '200':
@@ -161,7 +161,7 @@ paths:
       operationId: get-activities-activityId
       description: Get the activity
     patch:
-      summary: ''
+      summary: Update activity
       operationId: patch-activities-activityId
       responses:
         '200':
@@ -216,7 +216,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: List all subscriptions
       tags: []
       responses: {}
       operationId: get-activities-activityId-subscriptions
@@ -234,7 +234,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get subcription by id
       tags: []
       responses:
         '200':
@@ -246,7 +246,7 @@ paths:
       operationId: get-activities-activityId-subscriptions-userId
       description: Get subscription
     patch:
-      summary: ''
+      summary: Update subscription
       operationId: patch-activities-activityId-subscriptions-userId
       responses:
         '200':
@@ -264,7 +264,7 @@ paths:
                     message: You are not authorized to modify the subscription
       description: Update subscription
     put:
-      summary: ''
+      summary: Create new subscription
       operationId: put-activities-activityId-subscriptions-userId
       responses:
         '200':
@@ -287,7 +287,7 @@ paths:
       description: Create new subscription
       requestBody: {}
     delete:
-      summary: ''
+      summary: Remove subscription
       operationId: delete-activities-activityId-subscriptions-userId
       responses:
         '200':
