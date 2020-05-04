@@ -36,7 +36,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activity.Create'
+              $ref: ../models/Activity.Create.v1.yaml
         description: The activity to be created
     get:
       summary: Search activities
@@ -308,8 +308,6 @@ components:
   schemas:
     Activity:
       $ref: ../models/Activity.v1.yaml
-    Activity.Create:
-      $ref: ../models/Activity.Create.v1.yaml
     Subscription:
       $ref: ../models/Subscription.v1.yaml
 openapi: 3.0.0
