@@ -2,6 +2,8 @@ info:
   title: Activity
   version: '1.0'
   description: Activity management API
+  contact:
+    name: Avonet Technologies
 servers:
   - url: 'http://localhost:4000/dev/api'
 paths:
@@ -38,6 +40,8 @@ paths:
             schema:
               $ref: ../models/Activity.Create.v1.yaml
         description: The activity to be created
+      tags:
+        - Activity
     get:
       summary: Search activities
       operationId: get-activities
@@ -129,7 +133,8 @@ paths:
           in: query
           name: attributes
           description: Comma separated attribute list
-      requestBody: {}
+      tags:
+        - Activity
   '/activities/{activityId}':
     parameters:
       - schema:
@@ -139,7 +144,8 @@ paths:
         required: true
     get:
       summary: Get activity by activity id
-      tags: []
+      tags:
+        - Activity
       responses:
         '200':
           description: OK
@@ -208,6 +214,8 @@ paths:
           application/json:
             schema:
               $ref: ../models/Activity.Update.v1.yaml
+      tags:
+        - Activity
   '/activities/{activityId}/subscriptions':
     parameters:
       - schema:
@@ -217,8 +225,17 @@ paths:
         required: true
     get:
       summary: List all subscriptions
-      tags: []
-      responses: {}
+      tags:
+        - Activity
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
       operationId: get-activities-activityId-subscriptions
       description: Search subscriptions
   '/activities/{activityId}/subscriptions/{userId}':
@@ -235,7 +252,8 @@ paths:
         required: true
     get:
       summary: Get subcription by id
-      tags: []
+      tags:
+        - Activity
       responses:
         '200':
           description: OK
@@ -263,6 +281,8 @@ paths:
                     code: UNAUTHORIZED
                     message: You are not authorized to modify the subscription
       description: Update subscription
+      tags:
+        - Activity
     put:
       summary: Create new subscription
       operationId: put-activities-activityId-subscriptions-userId
@@ -296,7 +316,14 @@ paths:
                     code: LIMIT_EXCEEDED
                     message: Subscription limit exceeded
       description: Create new subscription
-      requestBody: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      tags:
+        - Activity
     delete:
       summary: Remove subscription
       operationId: delete-activities-activityId-subscriptions-userId
@@ -315,6 +342,8 @@ paths:
                     code: UNAUTHORIZED
                     message: You are not authorized to modify the subscription
       description: Unsubscribe
+      tags:
+        - Activity
 components:
   schemas:
     Activity:
@@ -322,3 +351,6 @@ components:
     Subscription:
       $ref: ../models/Subscription.v1.yaml
 openapi: 3.0.0
+tags:
+  - name: Activity
+    description: Everything about your Pets
