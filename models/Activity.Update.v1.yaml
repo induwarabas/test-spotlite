@@ -11,7 +11,7 @@ properties:
     maxLength: 128
   description:
     type: string
-    example: 'Compellingly actualize 24/365 vortals after highly efficient methodologies. Energistically negotiate adaptive systems whereas distinctive interfaces. Phosfluorescently transition highly efficient content before low-risk high-yield networks. Proactively leverage existing cross-media niche markets via next-generation services. Quickly supply revolutionary innovation before diverse mindshare.  Competently grow integrated technology without worldwide infrastructures. Globally embrace end-to-end quality vectors rather than mission-critical core competencies. Synergistically underwhelm extensive benefits and multidisciplinary value. Proactively iterate innovative technologies with extensive technologies. Progressively maintain holistic products vis-a-vis multifunctional supply chains.  Continually myocardinate user-centric outsourcing for backend alignments. Quickly target ethical sources for customer directed relationships. Phosfluorescently expedite interactive potentialities via robust "outside the box" thinking. Energistically maximize premier e-business before turnkey synergy. Continually scale next-generation sources without world-class manufactured products.  Holisticly repurpose cross-media supply chains rather than progressive imperatives. Conveniently build parallel bandwidth rather than highly efficient sources. Collaboratively drive high-payoff innovation vis-a-vis corporate convergence. Seamlessly evolve exceptional products before enterprise.'
+    example: Description of activity
     maxLength: 256
   category:
     type: string
