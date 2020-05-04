@@ -1,0 +1,27 @@
+title: Subscription
+type: object
+properties:
+  activityId:
+    type: string
+  userId:
+    type: string
+  status:
+    type: string
+  createdTime:
+    type: number
+  createdUser:
+    type: string
+  modifiedTime:
+    type: number
+  modifiedUser:
+    type: string
+  version:
+    type: number
+required:
+  - activityId
+  - userId
+  - createdTime
+  - createdUser
+  - modifiedTime
+  - modifiedUser
+  - version

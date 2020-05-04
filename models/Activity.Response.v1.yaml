@@ -1,4 +1,4 @@
-title: Activity
+title: Activity.Response
 type: object
 properties:
   activityId:
@@ -93,23 +93,16 @@ properties:
     type: number
   version:
     type: number
+  _links:
+    type: object
+    required:
+      - self
+      - update
+    properties:
+      self:
+        $ref: ./Link.v1.yaml
+      update:
+        $ref: ./Link.v1.yaml
 required:
-  - activityId
-  - name
-  - description
-  - category
-  - type
-  - gregsMin
-  - gregsMax
-  - skillLevel
-  - time
-  - location
-  - geoLocation
-  - suberb
-  - country
-  - subscriptions
-  - createdUser
-  - createdTime
-  - modifiedUser
-  - modifiedTime
   - version
+  - _links

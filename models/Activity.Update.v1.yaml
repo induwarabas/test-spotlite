@@ -1,4 +1,4 @@
-title: Activity
+title: Activity.Update
 type: object
 properties:
   activityId:
@@ -76,40 +76,8 @@ properties:
   publicUrl:
     type: string
     maxLength: 512
-  subscriptions:
-    type: number
-    description: Current active subscription count
-  createdUser:
-    type: string
-    example: U3
-    maxLength: 32
-  createdTime:
-    type: number
-  modifiedUser:
-    type: string
-    example: U5
-    maxLength: 32
-  modifiedTime:
-    type: number
   version:
     type: number
 required:
   - activityId
-  - name
-  - description
-  - category
-  - type
-  - gregsMin
-  - gregsMax
-  - skillLevel
-  - time
-  - location
-  - geoLocation
-  - suberb
-  - country
-  - subscriptions
-  - createdUser
-  - createdTime
-  - modifiedUser
-  - modifiedTime
   - version

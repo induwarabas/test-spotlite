@@ -1,0 +1,10 @@
+title: Link
+type: object
+properties:
+  url:
+    type: string
+  method:
+    type: string
+required:
+  - url
+  - method

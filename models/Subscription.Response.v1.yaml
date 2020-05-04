@@ -1,0 +1,36 @@
+title: Subscription
+type: object
+properties:
+  activityId:
+    type: string
+  userId:
+    type: string
+  status:
+    type: string
+  createdTime:
+    type: number
+  createdUser:
+    type: string
+  modifiedTime:
+    type: number
+  modifiedUser:
+    type: string
+  version:
+    type: number
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: ./Link.v1.yaml
+      delete:
+        $ref: ./Link.v1.yaml
+      update:
+        $ref: ./Link.v1.yaml
+required:
+  - activityId
+  - userId
+  - createdTime
+  - createdUser
+  - modifiedTime
+  - modifiedUser
+  - version

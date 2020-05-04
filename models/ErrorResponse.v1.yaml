@@ -1,11 +1,13 @@
 title: ErrorResponse
 type: object
+description: Generic error response
 properties:
   code:
     type: string
   message:
     type: string
+  body:
+    type: object
 required:
   - code
   - message
-description: Generic error response

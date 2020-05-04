@@ -1,0 +1,315 @@
+info:
+  title: Activity
+  version: '1.0'
+  description: Activity management API
+servers:
+  - url: 'http://localhost:4000/dev/api'
+paths:
+  /activities:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-activities
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Activity.Response.v1.yaml
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Field validation error:
+                  value:
+                    code: VALIDATION_ERROR
+                    message: Invalid activity
+                    body:
+                      name: Name is too long
+                      type: Type is required
+      description: 'Create new '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity.Create'
+        description: The activity to be created
+    get:
+      summary: ''
+      operationId: get-activities
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/Activity.Response.v1.yaml
+              examples: {}
+      description: Search activities
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Activity name
+        - schema:
+            type: string
+          in: query
+          name: location
+          description: GPS location for searching nearset
+        - schema:
+            type: string
+          in: query
+          name: suberb
+          description: Activity suberb
+        - schema:
+            type: number
+          in: query
+          name: gregs_max
+          description: Maximum participants
+        - schema:
+            type: number
+          in: query
+          name: gregs_min
+          description: Minimum participants
+        - schema:
+            type: number
+          in: query
+          name: cost_from
+          description: Cost starting
+        - schema:
+            type: number
+          in: query
+          name: cost_to
+          description: Cost up to
+        - schema:
+            type: array
+          in: query
+          name: type
+          description: Activity type
+        - schema:
+            type: string
+          in: query
+          name: category
+          description: Activity category
+        - schema:
+            type: array
+          in: query
+          name: skill
+          description: Activity skills
+        - schema:
+            type: array
+          in: query
+          name: equipment
+          description: Equipements required
+        - schema:
+            type: string
+          in: query
+          name: date_from
+          description: Date range start
+        - schema:
+            type: string
+          in: query
+          name: date_to
+          description: Date range end
+        - schema:
+            type: string
+          in: query
+          name: selection
+          description: 'Selection type. [ALL|FAVORITE|TRYNEW]'
+        - schema:
+            type: string
+            default: 'attributeId,name,description,category,type'
+          in: query
+          name: attributes
+          description: Comma separated attribute list
+      requestBody: {}
+  '/activities/{activityId}':
+    parameters:
+      - schema:
+          type: string
+        name: activityId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Activity.Response.v1.yaml
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Activity not found
+      operationId: get-activities-activityId
+      description: Get the activity
+    patch:
+      summary: ''
+      operationId: patch-activities-activityId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Unauthorized:
+                  value:
+                    code: UNAUTHORIZED
+                    message: You are not authorized to update the activity
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Activity not found
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Field validation error:
+                  value:
+                    code: VALIDATION_ERROR
+                    message: Invalid activity
+                    body:
+                      name: Name is too long
+                      type: Type is required
+      description: Update existing activity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/Activity.Update.v1.yaml
+  '/activities/{activityId}/subscriptions':
+    parameters:
+      - schema:
+          type: string
+        name: activityId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-activities-activityId-subscriptions
+      description: Search subscriptions
+  '/activities/{activityId}/subscriptions/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: activityId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Subscription.Response.v1.yaml
+      operationId: get-activities-activityId-subscriptions-userId
+      description: Get subscription
+    patch:
+      summary: ''
+      operationId: patch-activities-activityId-subscriptions-userId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not authorized:
+                  value:
+                    code: UNAUTHORIZED
+                    message: You are not authorized to modify the subscription
+      description: Update subscription
+    put:
+      summary: ''
+      operationId: put-activities-activityId-subscriptions-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Subscription.Response.v1.yaml
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Event Full:
+                  value:
+                    code: LIMIT_EXCEEDED
+                    message: Subscription limit exceeded
+      description: Create new subscription
+      requestBody: {}
+    delete:
+      summary: ''
+      operationId: delete-activities-activityId-subscriptions-userId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Unauthorized:
+                  value:
+                    code: UNAUTHORIZED
+                    message: You are not authorized to modify the subscription
+      description: Unsubscribe
+components:
+  schemas:
+    Activity:
+      $ref: ../models/Activity.v1.yaml
+    Activity.Create:
+      $ref: ../models/Activity.Create.v1.yaml
+    Subscription:
+      $ref: ../models/Subscription.v1.yaml
+openapi: 3.0.0
