@@ -273,6 +273,17 @@ paths:
             application/json:
               schema:
                 $ref: ../models/Subscription.Response.v1.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Unauthorized:
+                  value:
+                    code: UNAUTHORIZED
+                    message: You are not authorized to create this subscription
         '406':
           description: Not Acceptable
           content:
