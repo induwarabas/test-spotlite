@@ -17,7 +17,10 @@ paths:
       operationId: post-users
       responses:
         '201':
-          description: Created
+          description: |-
+            Created
+            ---
+            Successfully registered new user
           content:
             application/json:
               schema:
@@ -31,7 +34,10 @@ paths:
                   - user
                   - token
         '409':
-          description: Conflict
+          description: |-
+            Conflict
+            ---
+            Email already registerd
           content:
             application/json:
               schema:
@@ -42,7 +48,10 @@ paths:
                     code: ALREADY_EXIST
                     message: You are already registered
         '422':
-          description: Unprocessable Entity (WebDAV)
+          description: |-
+            Unprocessable Entity (WebDAV)
+            ---
+            This error is thrown if the request is invalid or missing mandatory fields.
           content:
             application/json:
               schema:
@@ -52,7 +61,7 @@ paths:
                   value:
                     code: VALIDATIION_ERROR
                     message: Password is required
-      description: Register new user
+      description: User details and password are required for registering new user
       requestBody:
         content:
           application/json:
@@ -126,6 +135,31 @@ paths:
                 properties:
                   user:
                     $ref: ../models/User.Response.v1.yaml
+        '403':
+          description: |-
+            Forbidden
+            ---
+            This error is thrown when a user tries to update other user's profile
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Forbidden:
+                  value:
+                    code: FORBIDDEN
+                    message: You are not authorized to update this user profile
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Profile not found
       tags:
         - Users
       description: Update user information by user id
