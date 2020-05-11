@@ -257,7 +257,7 @@ paths:
           in: query
           name: page
           description: Page
-  users/common/sessions:
+  users/login:
     post:
       summary: Create session with login credentials
       operationId: post-sessions
@@ -378,7 +378,7 @@ paths:
                 password:
                   type: string
       security: []
-  /users/common/tokens:
+  /users/tokens:
     parameters: []
     post:
       summary: Create Token
@@ -415,7 +415,7 @@ paths:
                     - email
       security: []
       parameters: []
-  '/users/common/tokens/{token}':
+  '/users/tokens/{token}':
     parameters:
       - schema:
           type: string

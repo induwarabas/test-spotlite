@@ -97,6 +97,8 @@ paths:
           description: Cost up to
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: type
           description: Activity type
@@ -107,11 +109,15 @@ paths:
           description: Activity category
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: skill
           description: Activity skills
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: equipment
           description: Equipements required
@@ -568,6 +574,8 @@ paths:
           description: Filter reviews by rating
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: tags
           description: Filter review by tags
@@ -594,7 +602,6 @@ components:
       $ref: ../models/Subscription.v1.yaml
     AcrivityReview:
       $ref: ../models/ActivityReview.v1.yaml
-      description: Activity review model
   securitySchemes:
     authorization:
       name: authorization
