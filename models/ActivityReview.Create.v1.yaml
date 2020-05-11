@@ -12,3 +12,6 @@ properties:
       type: string
   comments:
     type: string
+required:
+  - rating
+  - tags

@@ -1,5 +1,8 @@
 title: ActivityReview
 type: object
+description: Activity review model
+x-tags:
+  - Activity
 properties:
   activityId:
     type: string
@@ -11,6 +14,8 @@ properties:
     type: array
     items:
       type: string
+  comments:
+    type: string
   createdTime:
     type: number
   createdUser:
@@ -21,8 +26,13 @@ properties:
     type: string
   version:
     type: number
-  comments:
-    type: string
-description: Activity review model
-x-tags:
-  - Activity
+required:
+  - activityId
+  - userId
+  - rating
+  - tags
+  - createdTime
+  - createdUser
+  - modifiedTime
+  - modifiedUser
+  - version

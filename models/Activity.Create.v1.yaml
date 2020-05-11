@@ -50,6 +50,9 @@ properties:
   time:
     type: number
     example: 1588166712454
+  endTime:
+    type: number
+    example: 1588166712454
   location:
     type: string
     maxLength: 128

@@ -358,7 +358,8 @@ paths:
         required: true
     get:
       summary: Get activity review
-      tags: []
+      tags:
+        - Activity
       responses:
         '200':
           description: OK
@@ -456,6 +457,8 @@ paths:
             schema:
               $ref: ../models/ActivityReview.Create.v1.yaml
         description: ''
+      tags:
+        - Activity
     delete:
       summary: Delete activity review
       operationId: delete-activity-activityId-reviews-userId
@@ -485,6 +488,8 @@ paths:
                     code: REVIEW_NOT_FOUND
                     message: Activity review not found
       description: Delete review
+      tags:
+        - Activity
   '/activities/{activityId}/reviews':
     parameters:
       - schema:
@@ -494,7 +499,8 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Activity
       responses:
         '200':
           description: OK
