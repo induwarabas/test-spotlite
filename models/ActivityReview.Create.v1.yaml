@@ -1,0 +1,14 @@
+title: ActivityReview.Create
+type: object
+description: Activity review create model
+x-tags:
+  - Activity
+properties:
+  rating:
+    type: number
+  tags:
+    type: array
+    items:
+      type: string
+  comments:
+    type: string

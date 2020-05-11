@@ -344,12 +344,248 @@ paths:
       description: Unsubscribe
       tags:
         - Activity
+  '/activities/{activityId}/reviews/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: activityId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get activity review
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    $ref: ../models/ActivityReview.v1.yaml
+                required:
+                  - review
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not Found:
+                  value:
+                    code: REVIEW_NOT_FOUND
+                    message: Activity review not found
+      operationId: get-activity-activityId-rating
+      description: Get review
+    put:
+      summary: Add or modify activity review
+      operationId: put-activity-activityId-ratings-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    $ref: '#/components/schemas/AcrivityReview'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Other users:
+                  value:
+                    code: UNAUTHORIZED
+                    message: "You are not authorized to modify other's reviews"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Activity Not Found:
+                  value:
+                    code: ACTIVITY_NOT_FOUND
+                    message: Activity not found
+        '412':
+          description: Precondition Failed
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                No subscription:
+                  value:
+                    code: NO_SUBSCRIPTION
+                    message: You have not subscribed for this activity
+                Not Completed:
+                  value:
+                    code: NOT_COMPLETED
+                    message: Activity not completed yet
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Invalid rating:
+                  value:
+                    code: VALIDATION_ERROR
+                    message: Validation failed
+                    body:
+                      errors:
+                        - field: rating
+                          message: Rating should be 1 - 5
+      description: Add new activity review or modify existing review
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/ActivityReview.Create.v1.yaml
+        description: ''
+    delete:
+      summary: Delete activity review
+      operationId: delete-activity-activityId-reviews-userId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not autorized:
+                  value:
+                    code: UNAUTHORIZED
+                    message: You are not allowed to delete this review
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Review not found:
+                  value:
+                    code: REVIEW_NOT_FOUND
+                    message: Activity review not found
+      description: Delete review
+  '/activities/{activityId}/reviews':
+    parameters:
+      - schema:
+          type: string
+        name: activityId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AcrivityReview'
+                  total:
+                    type: number
+                  page:
+                    type: number
+                  size:
+                    type: number
+                required:
+                  - reviews
+                  - total
+                  - page
+                  - size
+              examples:
+                Example:
+                  value:
+                    total: 73
+                    page: 4
+                    size: 10
+                    reviews:
+                      - activityId: '1'
+                        userId: U10
+                        rating: '4'
+                        tags:
+                          - Good
+                          - Great
+                        comments: Great work
+                        createdUser: U10
+                        createdTime: 1589169834342
+                        modifiedUser: U10
+                        modifiedTime: 1589169834342
+                        version: 1
+                      - activityId: '1'
+                        userId: U221
+                        rating: '1'
+                        tags:
+                          - Bad
+                          - Worst
+                        comments: Worst activity
+                        createdUser: U221
+                        createdTime: 1589169834342
+                        modifiedUser: U221
+                        modifiedTime: 1589169834342
+                        version: 1
+      operationId: get-activities-activityId-reviews
+      description: Search activity reviews
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: rating
+          description: Filter reviews by rating
+        - schema:
+            type: array
+          in: query
+          name: tags
+          description: Filter review by tags
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: Order result set
+        - schema:
+            type: string
+          in: query
+          name: size
+          description: Limit result size
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: Result page
 components:
   schemas:
     Activity:
       $ref: ../models/Activity.v1.yaml
     Subscription:
       $ref: ../models/Subscription.v1.yaml
+    AcrivityReview:
+      $ref: ../models/ActivityReview.v1.yaml
+      description: Activity review model
 openapi: 3.0.0
 tags:
   - name: Activity
