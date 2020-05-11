@@ -1,0 +1,13 @@
+title: Token
+type: object
+properties:
+  token:
+    type: string
+  type:
+    type: string
+  userId:
+    type: string
+  email:
+    type: string
+  expire:
+    type: number

@@ -1,0 +1,432 @@
+openapi: 3.0.0
+info:
+  title: User
+  version: '1.0'
+  description: User api
+  contact:
+    name: Avonet Technologies
+servers:
+  - url: 'http://localhost:4000/dev/api'
+    description: DEV
+  - url: 'https://eiw077wanh.execute-api.us-east-1.amazonaws.com/qa/api'
+    description: QA
+paths:
+  /users:
+    post:
+      summary: Register new user
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                required:
+                  - user
+                  - token
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Already registerd:
+                  value:
+                    code: ALREADY_EXIST
+                    message: You are already registered
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Validation Failed:
+                  value:
+                    code: VALIDATIION_ERROR
+                    message: Password is required
+      description: Register new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                phone:
+                  type: string
+                picture:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - firstName
+                - lastName
+                - password
+      tags:
+        - Users
+      security: []
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get user by user id
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: User not found
+      operationId: get-users-userId
+      description: "Get user's information by user id"
+    patch:
+      summary: Update user information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: ../models/User.Response.v1.yaml
+      tags:
+        - Users
+      description: Update user information by user id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+        description: 'Information need to be updated. '
+  '/users/{userId}/subscriptions':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get subscriptions
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscriptions:
+                    type: array
+                    items:
+                      $ref: ../models/Subscription.Response.v1.yaml
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Forbidden:
+                  value:
+                    code: FORBIDDEN
+                    message: "You are not authorized to list other's subscriptions"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                User not found:
+                  value:
+                    code: NOT_FOUND
+                    message: User not found
+      operationId: get-users-userId-subscriptions
+      description: "Get user's subscription"
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - future
+              - past
+              - all
+            default: all
+          in: query
+          name: time
+          description: Future or past
+        - schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
+          in: query
+          name: sort
+          description: ascending or descending
+        - schema:
+            type: number
+            default: 10
+          in: query
+          name: size
+          description: Page size
+        - schema:
+            type: number
+            default: 1
+          in: query
+          name: page
+          description: Page
+  users/common/sessions:
+    post:
+      summary: Create session with login credentials
+      operationId: post-sessions
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+              examples:
+                Auth Token:
+                  value:
+                    token: hahdskadkagdkjahgdskajsdgajsdfausgdisjiou
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Login Error:
+                  value:
+                    code: UNAUTHORIZED
+                    message: Invalid credentials
+      tags:
+        - Users
+      description: Create session with login credentials. Login request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                credentials:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                facebook:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    token:
+                      type: string
+            examples:
+              With credentials:
+                value:
+                  credentials:
+                    email: test@sample.com
+                    password: '@$#$@$!@!$!!#!@#!@#!@#!'
+              With Facebook:
+                value:
+                  facebook:
+                    id: XXXXXXX
+                    token: YYYYYYY
+        description: ''
+      security: []
+    parameters: []
+  '/users/{userId}/passwords':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    post:
+      summary: Change password
+      operationId: post-users-userId-passwords
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Invalid password:
+                  value:
+                    code: UNAUTHORIZED
+                    message: Invalid current password
+                Invalid reset token:
+                  value:
+                    code: UNAUTHORIZED
+                    message: Invalid token
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                example-1:
+                  value:
+                    code: VALIDATION_ERROR
+                    message: Current password or token is required
+      description: Change password
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                token:
+                  type: string
+                password:
+                  type: string
+      security: []
+  /users/common/tokens:
+    parameters: []
+    post:
+      summary: Create Token
+      operationId: post-users-common-tokens
+      responses:
+        '201':
+          description: Created
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Email not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Email not found
+      description: Create password reset token
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passwordReset:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                  required:
+                    - email
+      security: []
+      parameters: []
+  '/users/common/tokens/{token}':
+    parameters:
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+    get:
+      summary: Get token information
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    $ref: '#/components/schemas/Token'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Token not found
+      operationId: get-users-common-tokens-token
+      description: Get token information
+      security: []
+components:
+  schemas:
+    User:
+      $ref: ../models/User.v1.yaml
+    Token:
+      $ref: ../models/Token.v1.yaml
+  securitySchemes:
+    authorization:
+      name: authorization
+      type: apiKey
+      in: header
+      description: ''
+security:
+  - authorization: []

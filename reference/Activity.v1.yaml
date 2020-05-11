@@ -6,6 +6,9 @@ info:
     name: Avonet Technologies
 servers:
   - url: 'http://localhost:4000/dev/api'
+    description: DEV
+  - url: 'https://eiw077wanh.execute-api.us-east-1.amazonaws.com/qa/api'
+    description: QA
 paths:
   /activities:
     parameters: []
@@ -328,8 +331,8 @@ paths:
       summary: Remove subscription
       operationId: delete-activities-activityId-subscriptions-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
           content:
@@ -463,8 +466,8 @@ paths:
       summary: Delete activity review
       operationId: delete-activity-activityId-reviews-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
           content:
@@ -592,7 +595,14 @@ components:
     AcrivityReview:
       $ref: ../models/ActivityReview.v1.yaml
       description: Activity review model
+  securitySchemes:
+    authorization:
+      name: authorization
+      type: apiKey
+      in: header
 openapi: 3.0.0
 tags:
   - name: Activity
     description: Everything about your Pets
+security:
+  - authorization: []

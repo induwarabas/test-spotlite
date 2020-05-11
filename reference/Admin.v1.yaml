@@ -7,7 +7,9 @@ info:
     name: Avonet Technologies
 servers:
   - url: 'http://localhost:4000/dev/api'
-    description: Development Server
+    description: DEV
+  - url: 'https://eiw077wanh.execute-api.us-east-1.amazonaws.com/qa/api'
+    description: QA
 paths:
   /admin/user/invite:
     parameters: []
