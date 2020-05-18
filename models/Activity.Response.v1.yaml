@@ -86,6 +86,12 @@ properties:
   subscriptions:
     type: number
     description: Current active subscription count
+  ratingsUp:
+    type: number
+    description: Up ratings count
+  ratingsDown:
+    type: number
+    description: Down ratings count
   createdUser:
     type: string
     example: U3
