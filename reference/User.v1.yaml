@@ -555,6 +555,8 @@ paths:
                     message: You are not authorized to add device for other users
       description: Register new device for receiving notfications
       requestBody: {}
+      tags:
+        - Users
     delete:
       summary: Remove device from notification subscriptions
       operationId: delete-users-userId-devices-deviceId
@@ -579,6 +581,8 @@ paths:
                     code: FORBIDDEN
                     message: You are not authorized to add device for other users
       description: Unsubscribe from notifications.
+      tags:
+        - Users
   '/static-pages/{pageId}':
     parameters:
       - schema:

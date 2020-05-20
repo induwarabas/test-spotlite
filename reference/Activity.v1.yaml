@@ -21,7 +21,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Activity.Response.v1.yaml
+                type: object
+                properties:
+                  activity:
+                    $ref: ../models/Activity.Response.v1.yaml
         '415':
           description: Unsupported Media Type
           content:
@@ -41,7 +44,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Activity.Create.v1.yaml
+              type: object
+              properties:
+                activity:
+                  $ref: ../models/Activity.Create.v1.yaml
         description: The activity to be created
       tags:
         - Activity
@@ -54,9 +60,23 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ../models/Activity.Response.v1.yaml
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      $ref: ../models/Activity.Response.v1.yaml
+                  total:
+                    type: number
+                  page:
+                    type: number
+                  size:
+                    type: number
+                required:
+                  - activities
+                  - total
+                  - page
+                  - size
               examples: {}
       description: Search activities
       parameters:
@@ -161,7 +181,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Activity.Response.v1.yaml
+                type: object
+                properties:
+                  activity:
+                    $ref: ../models/Activity.Response.v1.yaml
         '404':
           description: Not Found
           content:
@@ -242,9 +265,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Subscription'
+                type: object
+                properties:
+                  subscriptions:
+                    $ref: '#/components/schemas/Subscription'
       operationId: get-activities-activityId-subscriptions
       description: Search subscriptions
   '/activities/{activityId}/subscriptions/{userId}':
@@ -269,7 +293,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Subscription.Response.v1.yaml
+                type: object
+                properties:
+                  subscription:
+                    $ref: '#/components/schemas/Subscription'
       operationId: get-activities-activityId-subscriptions-userId
       description: Get subscription
     patch:
@@ -301,7 +328,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Subscription.Response.v1.yaml
+                type: object
+                properties:
+                  subscription:
+                    $ref: '#/components/schemas/Subscription'
         '401':
           description: Unauthorized
           content:
@@ -325,12 +355,7 @@ paths:
                     code: LIMIT_EXCEEDED
                     message: Subscription limit exceeded
       description: Create new subscription
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
+      requestBody: {}
       tags:
         - Activity
     delete:
