@@ -245,7 +245,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Activity.Update.v1.yaml
+              type: object
+              properties:
+                activity:
+                  $ref: ../models/Activity.Update.v1.yaml
       tags:
         - Activity
   '/activities/{activityId}/subscriptions':
@@ -489,7 +492,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/ActivityReview.Create.v1.yaml
+              type: object
+              properties:
+                review:
+                  $ref: ../models/ActivityReview.Create.v1.yaml
         description: ''
       tags:
         - Activity
