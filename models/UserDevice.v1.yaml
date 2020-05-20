@@ -1,0 +1,16 @@
+title: UserDevice
+type: object
+properties:
+  userId:
+    type: string
+  deviceId:
+    type: string
+  arn:
+    type: string
+required:
+  - userId
+  - deviceId
+  - arn
+description: "User's device identifier"
+x-tags:
+  - Users

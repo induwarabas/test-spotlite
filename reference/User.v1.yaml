@@ -450,12 +450,186 @@ paths:
       operationId: get-users-common-tokens-token
       description: Get token information
       security: []
+  '/users/{userId}/devices/{deviceId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: deviceId
+        in: path
+        required: true
+    get:
+      summary: Get user device
+      tags:
+        - Users
+      responses:
+        '200':
+          description: |-
+            OK
+            ---
+            Found valid device token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    $ref: ../models/UserDevice.v1.yaml
+              examples:
+                Success:
+                  value:
+                    device:
+                      userId: U3
+                      deviceId: 1231231-3asd12-13-1212313123
+                      arn: 'arn::123123131231313/fs123sdf13132'
+        '403':
+          description: |-
+            Forbidden
+            ---
+            Not authorized to view
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Forbidden:
+                  value:
+                    code: FORBIDDEN
+                    message: Not authorized to view this device information
+        '404':
+          description: |-
+            Not Found
+            ---
+            No device found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: No device token available
+      operationId: get-users-userId-devices-deviceId
+      description: Get user device information. Can check whether user has enabled notifications
+    put:
+      summary: Register new device for notifications
+      operationId: put-users-userId-devices-deviceId
+      responses:
+        '200':
+          description: |-
+            OK
+            ---
+            Successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    $ref: '#/components/schemas/UserDevice'
+              examples:
+                Success:
+                  value:
+                    device:
+                      userId: U3
+                      deviceId: 1231231-3asd12-13-1212313123
+                      arn: 'arn::123123131231313/fs123sdf13132'
+        '403':
+          description: |-
+            Forbidden
+            ---
+            Not authorized to register device
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Forbidden:
+                  value:
+                    code: FORBIDDEN
+                    message: You are not authorized to add device for other users
+      description: Register new device for receiving notfications
+      requestBody: {}
+    delete:
+      summary: Remove device from notification subscriptions
+      operationId: delete-users-userId-devices-deviceId
+      responses:
+        '204':
+          description: |-
+            No Content
+            ---
+            Successfully deleted
+        '403':
+          description: |-
+            Forbidden
+            ---
+            Not authorized to delete
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Forbidden:
+                  value:
+                    code: FORBIDDEN
+                    message: You are not authorized to add device for other users
+      description: Unsubscribe from notifications.
+  '/static-pages/{pageId}':
+    parameters:
+      - schema:
+          type: string
+        name: pageId
+        in: path
+        required: true
+    get:
+      summary: Get static page content
+      tags: []
+      responses:
+        '200':
+          description: |-
+            OK
+            ---
+            Static page available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  html:
+                    type: string
+              examples:
+                Success:
+                  value:
+                    html: '<p>This is a test page</p>'
+        '404':
+          description: |-
+            Not Found
+            ---
+            Static page not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/ErrorResponse.v1.yaml
+              examples:
+                Not found:
+                  value:
+                    code: NOT_FOUND
+                    message: Static page not found
+      operationId: get-static-pages-pageId
+      description: Get static page
 components:
   schemas:
     User:
       $ref: ../models/User.v1.yaml
     Token:
       $ref: ../models/Token.v1.yaml
+    UserDevice:
+      $ref: ../models/UserDevice.v1.yaml
   securitySchemes:
     authorization:
       name: authorization
