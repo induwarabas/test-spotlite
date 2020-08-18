@@ -378,7 +378,7 @@ paths:
                 password:
                   type: string
       security: []
-  /users/tokens:
+  /users/common/tokens:
     parameters: []
     post:
       summary: Create Token
@@ -415,7 +415,7 @@ paths:
                     - email
       security: []
       parameters: []
-  '/users/tokens/{token}':
+  '/users/common/tokens/{token}':
     parameters:
       - schema:
           type: string
@@ -626,6 +626,78 @@ paths:
                     message: Static page not found
       operationId: get-static-pages-pageId
       description: Get static page
+  /users/interests:
+    patch:
+      summary: ''
+      operationId: patch-users-interests
+      responses:
+        '200':
+          description: OK
+      description: Update location interests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                suburbs:
+                  type: array
+                  items:
+                    type: object
+  '/users/{userId}/myinterests':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updatedData:
+                    type: array
+                    items:
+                      type: object
+      operationId: get-users-userId-myinterests
+      description: Get user interested categories
+  '/users/{userId}/interest-update':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-users-userId-interest-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userData:
+                    type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    type: string
 components:
   schemas:
     User:
